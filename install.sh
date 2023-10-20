@@ -8,6 +8,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 echo "Installing zsh plugins"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/autoupdate
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
@@ -20,8 +21,8 @@ wget -P $FONT_DIR https://github.com/romkatv/powerlevel10k-media/raw/master/Mesl
 fc-cache -fv
 
 echo "Symlinking zsh config files"
-ln -sf $SCRIPT_DIR/.zshrc $HOME/.zshrc
 ln -sf $SCRIPT_DIR/.p10k.zsh $HOME/.p10k.zsh
+ln -sf $SCRIPT_DIR/.zshrc $HOME/.zshrc
 
 echo "Installing Tmux Plugin Manager (tpm)"
 git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm

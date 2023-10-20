@@ -9,6 +9,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 zstyle ':omz:update' mode auto # update automatically
 zstyle ':omz:update' frequency 7 # every N days
 plugins=(
+    autoupdate
     zsh-autosuggestions
     zsh-syntax-highlighting
     docker
