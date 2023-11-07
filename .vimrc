@@ -60,10 +60,9 @@ set encoding=utf8
 set mouse=a
 
 " Indentation settings
-set expandtab
+set list
 set shiftwidth=4
 set softtabstop=4
-set smarttab
 set autoindent
 set smartindent
 
