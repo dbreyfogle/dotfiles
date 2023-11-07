@@ -98,6 +98,9 @@ set nowb
 set noerrorbells
 set novisualbell
 
+" Hide redundant status when using plugin
+set noshowmode
+
 " Enable 24 bit colors
 if has("termguicolors")
   set termguicolors
