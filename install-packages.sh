@@ -21,7 +21,8 @@ sudo apt install -y \
     borgmatic \
     timeshift \
     flameshot \
-    filelight
+    filelight \
+    vlc
 
 # GitHub CLI
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
@@ -53,7 +54,7 @@ echo \
 sudo apt-get update
 
 # Docker Desktop
-wget -O /tmp/docker-desktop.deb 'https://desktop.docker.com/linux/main/amd64/docker-desktop-4.25.0-amd64.deb?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-linux-amd64'
+wget -O /tmp/docker-desktop.deb 'https://desktop.docker.com/linux/main/amd64/docker-desktop-4.25.1-amd64.deb?utm_source=docker&utm_medium=webreferral&utm_campaign=docs-driven-download-linux-amd64'
 sudo apt-get install -y /tmp/docker-desktop.deb
 
 # VSCode

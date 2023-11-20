@@ -31,3 +31,8 @@ if [ -d $HOME/.pyenv ]; then
     command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 fi
+
+# n
+if [ -d $HOME/n ]; then
+    export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
+fi
