@@ -22,7 +22,9 @@ sudo apt install -y \
     timeshift \
     flameshot \
     filelight \
-    vlc
+    vlc \
+    ffmpeg \
+    obs-studio
 
 # GitHub CLI
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
