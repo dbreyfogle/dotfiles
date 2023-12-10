@@ -76,6 +76,9 @@ wget -O /tmp/bitwarden.deb 'https://vault.bitwarden.com/download/?app=desktop&pl
 sudo apt install -y /tmp/bitwarden.deb
 
 # pyenv
+sudo apt install -y \
+  libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev \
+  xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
 curl https://pyenv.run | bash
 
 # n
