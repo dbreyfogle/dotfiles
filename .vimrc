@@ -47,7 +47,7 @@ noremap <Leader>< :tabmove -1<CR>
 noremap <Leader>> :tabmove +1<CR>
 
 " Use system clipboard by default
-set clipboard=unnamedplus
+set clipboard=unnamed,unnamedplus
 
 " Better command-line completion
 set wildmenu
