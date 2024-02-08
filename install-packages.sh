@@ -24,7 +24,8 @@ sudo apt install -y \
     filelight \
     vlc \
     ffmpeg \
-    obs-studio
+    obs-studio \
+    awscli
 
 # GitHub CLI
 type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
