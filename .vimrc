@@ -4,20 +4,16 @@ let mapleader=" "
 " Map kj to Escape
 inoremap kj <Esc>
 
-" Navigate visual lines rather than logical ones
-noremap j gj
-noremap k gk
-
 " Use J and K to move faster
-noremap J 5gj
-noremap K 5gk
+noremap J 5j
+noremap K 5k
 
 " Join line
-noremap <Leader>u J
+noremap <Leader>J J
 
 " Map H and L to beginning/end of line
-noremap H g^
-noremap L g$
+noremap H ^
+noremap L $
 
 " Map Y to act like D and C
 noremap Y y$
@@ -26,8 +22,8 @@ noremap Y y$
 noremap n nzz
 noremap N Nzz
 
-" Clear search highlights with Escape
-noremap <silent> <Esc> :noh<CR>
+" Clear search highlights with Enter
+noremap <silent> <Enter> :noh<CR>
 
 " Managing panes
 noremap <Leader>- :sp<CR>
