@@ -14,16 +14,13 @@ plugins=(
     zsh-syntax-highlighting
     docker
     docker-compose
+    tmux
 )
+ZSH_TMUX_AUTOSTART=true
 source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Enter tmux automagically
-if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
-    exec tmux new-session -A -s ${USER} >/dev/null 2>&1
-fi
 
 # pyenv
 if [ -d $HOME/.pyenv ]; then
