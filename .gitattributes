@@ -1,6 +1,5 @@
-* text=auto eol=lf
+# Force everything to be LF, except for Windows batch files that require CRLF
 
-# These are explicitly windows files and should use crlf
-*.bat text eol=crlf
-*.cmd text eol=crlf
-*.ps1 text eol=crlf
+* text=auto eol=lf
+*.{cmd,[cC][mM][dD]} text eol=crlf
+*.{bat,[bB][aA][tT]} text eol=crlf
