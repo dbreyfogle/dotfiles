@@ -16,7 +16,9 @@ plugins=(
     docker-compose
     tmux
 )
-ZSH_TMUX_AUTOSTART=true
+if ! [[ "$UID" == 0 || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
+    ZSH_TMUX_AUTOSTART=true
+fi
 source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
