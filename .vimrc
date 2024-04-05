@@ -46,6 +46,9 @@ noremap <Leader>> :tabmove +1<CR>
 " set clipboard=unnamed     " macOS / Windows
 set clipboard=unnamedplus " Linux / WSL
 
+" Hide status bar
+set laststatus=0
+
 " Better command-line completion
 set wildmenu
 set wildmode=list:longest,full
@@ -94,9 +97,6 @@ set nowb
 set noerrorbells
 set novisualbell
 
-" Hide redundant status when using plugin
-set noshowmode
-
 " Enable 24 bit colors
 if has("termguicolors")
   set termguicolors
@@ -121,8 +121,6 @@ Plug 'tpope/vim-commentary'
 Plug 'justinmk/vim-sneak'
 Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'joshdick/onedark.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 map f <Plug>Sneak_f
@@ -131,4 +129,3 @@ map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 
 colorscheme onedark
-let g:airline_theme='onedark'
