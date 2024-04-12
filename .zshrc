@@ -14,6 +14,7 @@ plugins=(
     zsh-syntax-highlighting
     docker
     docker-compose
+    kubectl
     tmux
 )
 if ! [[ "$UID" == 0 || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
