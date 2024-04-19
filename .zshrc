@@ -17,8 +17,10 @@ plugins=(
     kubectl
     tmux
 )
-if ! [[ "$UID" == 0 || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
+ZSH_TMUX_UNICODE=true
+if ! [[ "$UID" == 0 || -n "$SSH_CLIENT" || -n "$SSH_TTY" || "$TERM_PROGRAM" == "vscode" ]]; then
     ZSH_TMUX_AUTOSTART=true
+    ZSH_TMUX_AUTOQUIT=false
 fi
 source $ZSH/oh-my-zsh.sh
 

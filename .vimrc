@@ -1,8 +1,12 @@
 " Set leader
 let mapleader=" "
 
-" Map kj to Escape
+" Easier Escape
 inoremap kj <Esc>
+
+" Map H and L to beginning/end of line
+noremap H ^
+noremap L $
 
 " Use J and K to move faster
 noremap J 5j
@@ -11,21 +15,20 @@ noremap K 5k
 " Join line
 noremap <Leader>J J
 
-" Map H and L to beginning/end of line
-noremap H ^
-noremap L $
-
 " Map Y to act like D and C
 noremap Y y$
 
-" Center the cursor vertically when moving to the next word during a search
+" Undo and redo on same key
+nnoremap U <C-r>
+
+" Center the cursor when navigating during a search
 noremap n nzz
 noremap N Nzz
 
 " Clear search highlights with Enter
 noremap <silent> <Enter> :noh<CR>
 
-" Managing panes
+" Pane management
 noremap <Leader>- :sp<CR>
 noremap <Leader>\ :vsp<CR>
 noremap <Leader>x <C-W>c
@@ -34,7 +37,7 @@ noremap <Leader>k <C-W>k
 noremap <Leader>h <C-W>h
 noremap <Leader>l <C-W>l
 
-" Managing tabs
+" Tab management
 noremap <Leader>c :tabnew<CR>
 noremap <Leader>& :tabclose<CR>
 noremap <Leader>p :tabprev<CR>
@@ -43,61 +46,59 @@ noremap <Leader>< :tabmove -1<CR>
 noremap <Leader>> :tabmove +1<CR>
 
 " Use system clipboard by default
-" set clipboard=unnamed     " macOS / Windows
-set clipboard=unnamedplus " Linux / WSL
+" set clipboard=unnamed " for +clipboard
+set clipboard=unnamedplus " for +xterm_clipboard
+
+" Indentation settings
+set tabstop=4
+set shiftwidth=0 " follow tabstop
+set softtabstop=-1 " follow shiftwidth
+set autoindent
+set list
+
+" Display line numbers
+set number
+set relativenumber
+
+" Disable wrapping
+set nowrap
+
+" Keep cursor above/below N lines
+set scrolloff=10
 
 " Hide status bar
 set laststatus=0
 
-" Better command-line completion
-set wildmenu
-set wildmode=list:longest,full
-
-" Set utf8 as default encoding
+" Set default encoding
 set encoding=utf8
 
-" Enable mouse
-set mouse=a
-
-" Indentation settings
-set list
-set shiftwidth=4
-set softtabstop=4
-set autoindent
-set smartindent
-
-" Do not let cursor scroll above or below N lines
-set scrolloff=10
-
-" Display relative line numbers
-set number
-set relativenumber
-
-" Do not wrap lines
-set nowrap
-
-" Use case insensitive search, except when using capital letters
-set ignorecase
-set smartcase
-
-" Highlight searches
+" Search settings
 set incsearch
 set hlsearch
+set ignorecase
+set smartcase
 
 " Automatically focus new splits
 set splitbelow
 set splitright
 
-" Turn backup off
+" Better command-line completion
+set wildmenu
+set wildmode=list:longest,full
+
+" Disable error sounds
+set noerrorbells
+set novisualbell
+
+" Turn off backups
 set nobackup
 set noswapfile
 set nowb
 
-" Disable annoying sounds on errors
-set noerrorbells
-set novisualbell
+" Allow mouse usage
+set mouse=a
 
-" Enable 24 bit colors
+" Enable 24-bit colors
 if has("termguicolors")
   set termguicolors
 endif
@@ -123,9 +124,12 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'joshdick/onedark.vim'
 call plug#end()
 
+" Sneak plugin settings
+let g:sneak#use_ic_scs = 1
 map f <Plug>Sneak_f
 map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 
+" Set colorscheme
 colorscheme onedark
