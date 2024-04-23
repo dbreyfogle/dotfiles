@@ -121,7 +121,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'justinmk/vim-sneak'
 Plug 'vim-scripts/ReplaceWithRegister'
-Plug 'joshdick/onedark.vim'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 call plug#end()
 
 " Sneak plugin settings
@@ -132,4 +132,4 @@ map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 
 " Set colorscheme
-colorscheme onedark
+colorscheme onehalfdark
