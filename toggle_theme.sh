@@ -21,5 +21,5 @@ toggle_theme() {
 }
 
 toggle_theme "$VIMRC_PATH" 'colorscheme onehalflight' 'colorscheme onehalfdark'
-toggle_theme "$TMUX_CONF_PATH" 'set -g @catppuccin_flavour "latte"' 'set -g @catppuccin_flavour "mocha"'
+toggle_theme "$TMUX_CONF_PATH" 'set -g @catppuccin_flavor "latte"' 'set -g @catppuccin_flavor "mocha"'
 tmux source-file "$TMUX_CONF_PATH"
