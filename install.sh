@@ -41,17 +41,19 @@ install_zsh() {
     fi
 
     echo "==> Installing oh-my-zsh plugins..."
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${OH_MY_ZSH_CUSTOM}/themes/powerlevel10k"
     git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins "${OH_MY_ZSH_CUSTOM}/plugins/autoupdate"
     git clone https://github.com/zsh-users/zsh-autosuggestions "${OH_MY_ZSH_CUSTOM}/plugins/zsh-autosuggestions"
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${OH_MY_ZSH_CUSTOM}/plugins/zsh-syntax-highlighting"
+
+    echo "==> Installing Starship..."
+    curl -sS https://starship.rs/install.sh | sh -s -- --yes
 }
 
 symlink_configs() {
     echo "==> Symlinking config files..."
     SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
     ln -sf "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
-    ln -sf "$SCRIPT_DIR/.p10k.zsh" "$HOME/.p10k.zsh"
+    mkdir -p "$HOME/.config" && ln -sf "$SCRIPT_DIR/starship.toml" "$HOME/.config/starship.toml"
     ln -sf "$SCRIPT_DIR/.tmux.conf" "$HOME/.tmux.conf"
     ln -sf "$SCRIPT_DIR/.vimrc" "$HOME/.vimrc"
 }
@@ -70,11 +72,10 @@ install_tpm() {
 
 install_fonts() {
     echo "==> Installing fonts..."
-    mkdir -p "$FONT_DIR/MesloLGS NF"
-    wget -P "$FONT_DIR/MesloLGS NF" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
-    wget -P "$FONT_DIR/MesloLGS NF" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
-    wget -P "$FONT_DIR/MesloLGS NF" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
-    wget -P "$FONT_DIR/MesloLGS NF" https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+    mkdir -p "$FONT_DIR/FiraCode"
+    curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz
+    tar -xf FiraCode.tar.xz -C "$FONT_DIR/FiraCode"
+    rm FiraCode.tar.xz
     fc-cache -fv
 }
 
