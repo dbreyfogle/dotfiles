@@ -6,17 +6,21 @@ fi
 # oh-my-zsh
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
-zstyle ':omz:update' mode auto # update automatically
-zstyle ':omz:update' frequency 7 # every N days
+zstyle ':omz:update' mode auto
 plugins=(
     autoupdate
     zsh-autosuggestions
     zsh-syntax-highlighting
+    tmux
+    z
+    dotenv
     docker
     docker-compose
     kubectl
-    tmux
+    aws
+    poetry
 )
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd)
 ZSH_TMUX_UNICODE=true
 if ! [[ "$UID" == 0 || -n "$SSH_CLIENT" || -n "$SSH_TTY" || "$TERM_PROGRAM" == "vscode" ]]; then
     ZSH_TMUX_AUTOSTART=true
@@ -32,6 +36,7 @@ if [ -d $HOME/.pyenv ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
 fi
 
 # pipx
@@ -44,3 +49,6 @@ fi
 
 # Default editor
 export EDITOR="/usr/bin/vim"
+
+# Aliases
+alias l="ls -lFhAv --group-directories-first --color"

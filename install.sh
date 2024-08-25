@@ -2,18 +2,22 @@
 
 # Usage: ./install.sh [--with-deps] [--with-fonts]
 
-install_deps=false   # Default value
-install_fonts=false  # Default value
+with_deps=false
+with_fonts=false
 
-# Parse command-line arguments
-while [ "$1" != "" ]; do
-    case $1 in
-        --with-deps ) install_deps=true
-                         shift ;;
-        --with-fonts ) install_fonts=true
-                          shift ;;
-        * )               echo "Unknown argument: $1"
-                          exit 1
+for arg in "$@"; do
+    case "$arg" in
+    --with-deps)
+        with_deps=true
+        ;;
+    --with-fonts)
+        with_fonts=true
+        ;;
+    *)
+        echo "Error: Unknown argument '$arg'"
+        echo "Usage: $0 [--with-deps] [--with-fonts]"
+        exit 1
+        ;;
     esac
 done
 
@@ -25,20 +29,18 @@ install_dependencies() {
     echo "==> Installing dependencies..."
     apt-get update
     apt-get install -y git wget curl zsh tmux vim
-	chsh -s /bin/zsh
+    chsh -s /bin/zsh
 }
 
-install_oh_my_zsh() {
+install_zsh() {
     echo "==> Installing oh-my-zsh..."
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     if [ $? -ne 0 ]; then
         echo "Error installing oh-my-zsh!"
         exit 1
     fi
-}
 
-install_zsh_plugins() {
-    echo "==> Installing zsh plugins..."
+    echo "==> Installing oh-my-zsh plugins..."
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${OH_MY_ZSH_CUSTOM}/themes/powerlevel10k"
     git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins "${OH_MY_ZSH_CUSTOM}/plugins/autoupdate"
     git clone https://github.com/zsh-users/zsh-autosuggestions "${OH_MY_ZSH_CUSTOM}/plugins/zsh-autosuggestions"
@@ -46,9 +48,8 @@ install_zsh_plugins() {
 }
 
 symlink_configs() {
+    echo "==> Symlinking config files..."
     SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
-
-    echo "==> Symlinking configuration files..."
     ln -sf "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
     ln -sf "$SCRIPT_DIR/.p10k.zsh" "$HOME/.p10k.zsh"
     ln -sf "$SCRIPT_DIR/.tmux.conf" "$HOME/.tmux.conf"
@@ -77,17 +78,16 @@ install_fonts() {
     fc-cache -fv
 }
 
-if $install_deps; then
+if $with_deps; then
     install_dependencies
 fi
 
-install_oh_my_zsh
-install_zsh_plugins
-symlink_configs
-install_tpm
-
-if $install_fonts; then
+if $with_fonts; then
     install_fonts
 fi
+
+install_zsh
+symlink_configs
+install_tpm
 
 echo "Installation complete!"
