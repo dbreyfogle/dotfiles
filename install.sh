@@ -28,7 +28,7 @@ FONT_DIR="$HOME/.local/share/fonts"
 install_dependencies() {
     echo "==> Installing dependencies..."
     apt-get update
-    apt-get install -y git wget curl zsh tmux vim
+    apt-get install -y git wget curl zsh tmux vim direnv
     chsh -s /bin/zsh
 }
 

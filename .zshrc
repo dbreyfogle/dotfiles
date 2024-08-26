@@ -7,7 +7,7 @@ plugins=(
     zsh-syntax-highlighting
     tmux
     z
-    dotenv
+    direnv
     docker
     docker-compose
     kubectl
