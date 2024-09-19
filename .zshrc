@@ -16,7 +16,7 @@ plugins=(
 )
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd)
 ZSH_TMUX_UNICODE=true
-if ! [[ "$UID" == 0 || -n "$SSH_CLIENT" || -n "$SSH_TTY" || "$TERM_PROGRAM" == "vscode" ]]; then
+if ! [[ "$UID" == 0 || "$TERM_PROGRAM" == "vscode" ]]; then
     ZSH_TMUX_AUTOSTART=true
     ZSH_TMUX_AUTOQUIT=false
 fi
@@ -37,6 +37,9 @@ export PATH="$PATH:$HOME/.local/bin"
 if [ -d $HOME/n ]; then
     export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
 fi
+
+# Do not save space-prefixed commands to history
+setopt HIST_IGNORE_SPACE
 
 # Default editor
 export EDITOR="/usr/bin/vim"

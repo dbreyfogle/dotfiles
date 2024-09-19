@@ -25,11 +25,18 @@ OH_MY_ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
 TMUX_PLUGIN_DIR="$HOME/.tmux/plugins/tpm"
 FONT_DIR="$HOME/.local/share/fonts"
 
+PACKAGE_MGR="apt"
+
 install_dependencies() {
     echo "==> Installing dependencies..."
-    apt-get update
-    apt-get install -y git wget curl zsh tmux vim direnv
-    chsh -s /bin/zsh
+    sudo ${PACKAGE_MGR} update
+    sudo ${PACKAGE_MGR} install -y git wget curl zsh tmux vim direnv
+
+    # Check if direnv package installed successfully
+    if ! command -v direnv 2>&1 >/dev/null; then
+        echo "direnv package not found. Installing binary..."
+        curl -sfL https://direnv.net/install.sh | bash
+    fi
 }
 
 install_zsh() {
