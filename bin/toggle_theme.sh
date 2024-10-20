@@ -1,8 +1,8 @@
 #!/bin/sh
 
-SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
-VIMRC_PATH="$SCRIPT_DIR/.vimrc"
-TMUX_CONF_PATH="$SCRIPT_DIR/.tmux.conf"
+PARENT_DIR=$(dirname "$(dirname "$(readlink -f "$0")")")
+VIMRC_PATH="$PARENT_DIR/.vimrc"
+TMUX_CONF_PATH="$PARENT_DIR/.tmux.conf"
 
 toggle_theme() {
     local file_path="$1"

@@ -58,11 +58,12 @@ install_zsh() {
 
 symlink_configs() {
     echo "==> Symlinking config files..."
-    SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
-    ln -sf "$SCRIPT_DIR/.zshrc" "$HOME/.zshrc"
-    mkdir -p "$HOME/.config" && ln -sf "$SCRIPT_DIR/starship.toml" "$HOME/.config/starship.toml"
-    ln -sf "$SCRIPT_DIR/.tmux.conf" "$HOME/.tmux.conf"
-    ln -sf "$SCRIPT_DIR/.vimrc" "$HOME/.vimrc"
+    PARENT_DIR=$(dirname "$(dirname "$(readlink -f "$0")")")
+    mkdir -p "$HOME/.config"
+    ln -sf "$PARENT_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
+    ln -sf "$PARENT_DIR/.tmux.conf" "$HOME/.tmux.conf"
+    ln -sf "$PARENT_DIR/.vimrc" "$HOME/.vimrc"
+    ln -sf "$PARENT_DIR/.zshrc" "$HOME/.zshrc"
 }
 
 install_tpm() {
