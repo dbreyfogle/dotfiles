@@ -60,6 +60,7 @@ symlink_configs() {
     echo "==> Symlinking config files..."
     PARENT_DIR=$(dirname "$(dirname "$(readlink -f "$0")")")
     mkdir -p "$HOME/.config"
+    ln -sf "$PARENT_DIR/.config/nvim" "$HOME/.config"
     ln -sf "$PARENT_DIR/.config/starship.toml" "$HOME/.config/starship.toml"
     ln -sf "$PARENT_DIR/.tmux.conf" "$HOME/.tmux.conf"
     ln -sf "$PARENT_DIR/.vimrc" "$HOME/.vimrc"
