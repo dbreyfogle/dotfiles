@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+REPO_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
+VIMRC_PATH="$REPO_ROOT/vim/.vimrc"
+NVIM_PLUGIN_PATH="$REPO_ROOT/nvim/lua/plugins"
+TMUX_CONF_PATH="$REPO_ROOT/tmux/.tmux.conf"
+
+toggle_theme() {
+    local file="$1" light="$2" dark="$3"
+
+    if grep -q "$light" "$file"; then
+        sed "s|$light|$dark|g" "$file" > "$file.tmp" &&
+            mv "$file.tmp" "$file" &&
+            echo "Switched to dark theme in $file"
+    elif grep -q "$dark" "$file"; then
+        sed "s|$dark|$light|g" "$file" > "$file.tmp" &&
+            mv "$file.tmp" "$file" &&
+            echo "Switched to light theme in $file"
+    else
+        echo "Warning: Neither pattern found in '$file'"
+    fi
+}
+
+toggle_theme "$VIMRC_PATH" 'colorscheme onehalflight' 'colorscheme onehalfdark'
+toggle_theme "$NVIM_PLUGIN_PATH/onedark.lua" '"light"' '"dark"'
+toggle_theme "$TMUX_CONF_PATH" 'status-style bg=default,fg=black' 'status-style bg=default,fg=white'
+tmux source-file "$TMUX_CONF_PATH"
