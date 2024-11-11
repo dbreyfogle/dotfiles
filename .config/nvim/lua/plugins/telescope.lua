@@ -11,6 +11,7 @@ return {
 				return vim.fn.executable("make") == 1
 			end,
 		},
+		{ "nvim-telescope/telescope-project.nvim" },
 		{ "nvim-telescope/telescope-ui-select.nvim" },
 		{ "debugloop/telescope-undo.nvim" },
 		{ "folke/todo-comments.nvim" },
@@ -19,10 +20,21 @@ return {
 	config = function()
 		require("telescope").setup({
 			extensions = {
+				["project"] = {
+					on_project_selected = function(prompt_bufnr)
+						if vim.g.this_obsession then
+							vim.cmd("silent! Obsession") -- pause obsession
+						end
+						local actions = require("telescope._extensions.project.actions")
+						actions.change_working_directory(prompt_bufnr)
+						require("telescope.builtin").find_files()
+					end,
+				},
 				["ui-select"] = { require("telescope.themes").get_dropdown() },
 			},
 		})
 		pcall(require("telescope").load_extension, "fzf")
+		pcall(require("telescope").load_extension, "project")
 		pcall(require("telescope").load_extension, "ui-select")
 		pcall(require("telescope").load_extension, "undo")
 
@@ -44,6 +56,12 @@ return {
 		map("<Leader>sh", builtin.help_tags)
 		map("<Leader>sj", builtin.jumplist)
 		map("<Leader>sk", builtin.keymaps)
+		map("<Leader>sp", function()
+			require("telescope").extensions.project.project({
+				display_type = "full",
+				hide_workspace = true,
+			})
+		end)
 		map("<Leader>sr", builtin.resume)
 		map("<Leader>ss", builtin.builtin)
 		map("<Leader>st", "<CMD>TodoTelescope<CR>")
