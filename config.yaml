@@ -1,0 +1,176 @@
+asciinema:
+  install:
+    fedora: |
+      sudo dnf install -y asciinema
+      curl -Lk https://github.com/asciinema/agg/releases/latest/download/agg-x86_64-unknown-linux-gnu -o agg
+      chmod a+x agg && sudo mv agg /usr/local/bin
+    macos: brew install asciinema agg
+
+aws:
+  install:
+    fedora: sudo dnf install -y awscli
+    macos: brew install awscli
+
+bin:
+  symlink: $HOME
+  scope: directory
+
+direnv:
+  install:
+    fedora: sudo dnf install -y direnv
+    macos: brew install direnv
+
+docker:
+  install:
+    fedora: |
+      sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+      sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      sudo groupadd -f docker
+      sudo usermod -aG docker $USER
+      sudo systemctl enable docker.service
+      sudo systemctl enable containerd.service
+      sudo dnf install -y hadolint
+    macos: brew install --cask docker && brew install hadolint
+
+fonts:
+  env:
+    - FONT_DIR: $HOME/.local/share/fonts
+  install:
+    fedora: |
+      sudo dnf install -y fontconfig
+      mkdir -p "$FONT_DIR/FiraCode"
+      curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz
+      tar -xf FiraCode.tar.xz -C "$FONT_DIR/FiraCode" && rm FiraCode.tar.xz
+      fc-cache -fv
+    macos: |
+      curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz
+      tar -xf FiraCode.tar.xz -C "$HOME/Library/Fonts" && rm FiraCode.tar.xz
+
+fzf:
+  install:
+    fedora: sudo dnf install -y fzf
+    macos: brew install fzf
+
+git:
+  install:
+    fedora: sudo dnf install -y git gh glab git-filter-repo
+    macos: brew install git gh glab git-filter-repo
+  setup: |
+    git config --global init.defaultBranch main
+    git config --global push.autoSetupRemote true
+    git config --global alias.graph "log --graph --oneline --decorate --all"
+
+go:
+  install:
+    fedora: sudo dnf install -y golang
+    macos: brew install go
+
+iterm:
+  install:
+    macos: brew install --cask iterm2
+
+k8s:
+  dependencies:
+    - docker
+  install:
+    fedora: |
+      cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+      [kubernetes]
+      name=Kubernetes
+      baseurl=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/
+      enabled=1
+      gpgcheck=1
+      gpgkey=https://pkgs.k8s.io/core:/stable:/v1.31/rpm/repodata/repomd.xml.key
+      EOF
+      sudo dnf install -y kubectl helm
+      curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+      sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+    macos: brew install kubernetes-cli helm minikube
+
+node:
+  install:
+    fedora: sudo dnf install -y nodejs
+    macos: brew install node
+
+nvim:
+  dependencies:
+    - fonts
+    - node
+  symlink: $HOME/.config
+  scope: directory
+  install:
+    fedora: sudo dnf install -y neovim ripgrep unzip
+    macos: brew install neovim ripgrep
+
+pipx:
+  install:
+    fedora: sudo dnf install -y pipx
+    macos: brew install pipx
+  setup: pipx install poetry
+
+ptyxis:
+  symlink: $HOME/.local/share/org.gnome.Ptyxis/palettes
+
+pyenv:
+  install:
+    fedora: |
+      sudo dnf install -y make gcc patch zlib-devel bzip2 bzip2-devel readline-devel sqlite \
+        sqlite-devel openssl-devel tk-devel libffi-devel xz-devel libuuid-devel gdbm-libs libnsl2
+      curl https://pyenv.run | bash
+    macos: brew install pyenv pyenv-virtualenv
+
+starship:
+  dependencies:
+    - fonts
+  symlink: $HOME/.config
+  install:
+    fedora: curl -sS https://starship.rs/install.sh | sh -s -- --yes
+    macos: brew install starship
+
+terraform:
+  install:
+    fedora: |
+      sudo dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+      sudo dnf install -y terraform
+    macos: |
+      brew tap hashicorp/tap
+      brew install hashicorp/tap/terraform
+
+tldr:
+  install:
+    fedora: sudo dnf install -y tldr
+    macos: brew install tldr
+  setup: tldr --update
+
+tmux:
+  symlink: $HOME
+  env:
+    - TMUX_PLUGIN_DIR: $HOME/.tmux/plugins/tpm
+  install:
+    fedora: sudo dnf install -y tmux
+    macos: brew install tmux
+  setup: git clone https://github.com/tmux-plugins/tpm "$TMUX_PLUGIN_DIR"
+  post_setup: "$TMUX_PLUGIN_DIR/bin/install_plugins"
+
+vim:
+  symlink: $HOME
+  install:
+    fedora: sudo dnf install -y vimx && sudo ln -s vimx /bin/vim
+    macos: brew install vim
+
+zsh:
+  dependencies:
+    - starship
+  symlink: $HOME
+  env:
+    - OH_MY_ZSH_CUSTOM: $HOME/.oh-my-zsh/custom
+  install:
+    fedora: sudo dnf install -y zsh
+    macos: |
+      brew install coreutils
+      sudo ln -sf /opt/homebrew/opt/coreutils/bin/gls /usr/local/bin/ls
+  setup: |
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins "${OH_MY_ZSH_CUSTOM}/plugins/autoupdate"
+    git clone https://github.com/zsh-users/zsh-autosuggestions "${OH_MY_ZSH_CUSTOM}/plugins/zsh-autosuggestions"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${OH_MY_ZSH_CUSTOM}/plugins/zsh-syntax-highlighting"
