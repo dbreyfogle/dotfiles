@@ -3,6 +3,7 @@
 set -euo pipefail
 
 REPO_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
+ALACRITTY_PATH="$REPO_ROOT/alacritty/alacritty.toml"
 VIMRC_PATH="$REPO_ROOT/vim/.vimrc"
 NVIM_PLUGIN_PATH="$REPO_ROOT/nvim/lua/plugins"
 TMUX_CONF_PATH="$REPO_ROOT/tmux/.tmux.conf"
@@ -23,6 +24,7 @@ toggle_theme() {
     fi
 }
 
+toggle_theme "$ALACRITTY_PATH" 'onehalflight' 'onehalfdark'
 toggle_theme "$VIMRC_PATH" 'colorscheme onehalflight' 'colorscheme onehalfdark'
 toggle_theme "$NVIM_PLUGIN_PATH/onedark.lua" '"light"' '"dark"'
 toggle_theme "$TMUX_CONF_PATH" 'status-style bg=default,fg=black' 'status-style bg=default,fg=white'

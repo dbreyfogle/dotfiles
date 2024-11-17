@@ -1,3 +1,11 @@
+alacritty:
+  dependencies:
+    - fonts
+  symlink: $HOME/.config/alacritty
+  install:
+    fedora: sudo dnf install -y alacritty
+    macos: brew install --cask alacritty
+
 asciinema:
   install:
     fedora: |
@@ -65,10 +73,6 @@ go:
     fedora: sudo dnf install -y golang
     macos: brew install go
 
-iterm:
-  install:
-    macos: brew install --cask iterm2
-
 k8s:
   dependencies:
     - docker
@@ -107,9 +111,6 @@ pipx:
     fedora: sudo dnf install -y pipx
     macos: brew install pipx
   setup: pipx install poetry
-
-ptyxis:
-  symlink: $HOME/.local/share/org.gnome.Ptyxis/palettes
 
 pyenv:
   install:

@@ -1,0 +1,22 @@
+[general]
+import = [
+  "~/.config/alacritty/device.toml",
+  "~/.config/alacritty/themes/onehalfdark.toml",
+]
+
+[cursor]
+style.blinking = "Always"
+blink_timeout = 0
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+normal = { family = "FiraCode Nerd Font", style = "Retina" }
+
+[mouse]
+hide_when_typing = true
+
+[window]
+decorations = "none"
+dynamic_padding = true
