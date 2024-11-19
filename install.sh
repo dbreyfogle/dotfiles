@@ -13,6 +13,7 @@ REQUIRED_COMMANDS=(
 VALID_OS=(
     "fedora"
     "macos"
+    "ubuntu"
 )
 OS=""
 DISABLED=()

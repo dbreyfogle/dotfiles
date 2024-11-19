@@ -5,6 +5,7 @@ alacritty:
   install:
     fedora: sudo dnf install -y alacritty
     macos: brew install --cask alacritty
+    ubuntu: sudo apt install -y alacritty
 
 asciinema:
   install:
@@ -13,11 +14,20 @@ asciinema:
       curl -Lk https://github.com/asciinema/agg/releases/latest/download/agg-x86_64-unknown-linux-gnu -o agg
       chmod a+x agg && sudo mv agg /usr/local/bin
     macos: brew install asciinema agg
+    ubuntu: |
+      sudo apt install -y asciinema
+      curl -Lk https://github.com/asciinema/agg/releases/latest/download/agg-x86_64-unknown-linux-gnu -o agg
+      chmod a+x agg && sudo mv agg /usr/local/bin
 
 aws:
   install:
     fedora: sudo dnf install -y awscli
     macos: brew install awscli
+    ubuntu: |
+      sudo apt install -y unzip
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
+      unzip /tmp/awscliv2.zip -d /tmp
+      sudo /tmp/aws/install
 
 bin:
   symlink: $HOME
@@ -27,6 +37,7 @@ direnv:
   install:
     fedora: sudo dnf install -y direnv
     macos: brew install direnv
+    ubuntu: sudo apt install -y direnv
 
 docker:
   install:
@@ -39,6 +50,14 @@ docker:
       sudo systemctl enable containerd.service
       sudo dnf install -y hadolint
     macos: brew install --cask docker && brew install hadolint
+    ubuntu: |
+      curl -fsSL https://get.docker.com | sudo sh
+      sudo groupadd -f docker
+      sudo usermod -aG docker $USER
+      sudo systemctl enable docker.service
+      sudo systemctl enable containerd.service
+      curl -Lk https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64 -o hadolint
+      chmod a+x hadolint && sudo mv hadolint /usr/local/bin
 
 fonts:
   env:
@@ -53,16 +72,24 @@ fonts:
     macos: |
       curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz
       tar -xf FiraCode.tar.xz -C "$HOME/Library/Fonts" && rm FiraCode.tar.xz
+    ubuntu: |
+      sudo apt install -y fontconfig
+      mkdir -p "$FONT_DIR/FiraCode"
+      curl -OL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz
+      tar -xf FiraCode.tar.xz -C "$FONT_DIR/FiraCode" && rm FiraCode.tar.xz
+      fc-cache -fv
 
 fzf:
   install:
     fedora: sudo dnf install -y fzf
     macos: brew install fzf
+    ubuntu: sudo apt install -y fzf
 
 git:
   install:
     fedora: sudo dnf install -y git gh glab git-filter-repo
     macos: brew install git gh glab git-filter-repo
+    ubuntu: sudo apt install -y git gh glab git-filter-repo
   setup: |
     git config --global init.defaultBranch main
     git config --global push.autoSetupRemote true
@@ -72,6 +99,7 @@ go:
   install:
     fedora: sudo dnf install -y golang
     macos: brew install go
+    ubuntu: sudo apt install -y golang
 
 k8s:
   dependencies:
@@ -90,11 +118,18 @@ k8s:
       curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
       sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
     macos: brew install kubernetes-cli helm minikube
+    ubuntu: |
+      curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && rm kubectl
+      curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+      curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+      sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 
 node:
   install:
     fedora: sudo dnf install -y nodejs
     macos: brew install node
+    ubuntu: sudo apt install -y nodejs npm
 
 nvim:
   dependencies:
@@ -105,20 +140,31 @@ nvim:
   install:
     fedora: sudo dnf install -y neovim ripgrep unzip
     macos: brew install neovim ripgrep
+    ubuntu: sudo apt install -y neovim ripgrep unzip
 
 pipx:
   install:
     fedora: sudo dnf install -y pipx
     macos: brew install pipx
+    ubuntu: sudo apt install -y pipx
   setup: pipx install poetry
 
 pyenv:
   install:
     fedora: |
-      sudo dnf install -y make gcc patch zlib-devel bzip2 bzip2-devel readline-devel sqlite \
-        sqlite-devel openssl-devel tk-devel libffi-devel xz-devel libuuid-devel gdbm-libs libnsl2
+      sudo dnf install -y make gcc patch zlib-devel bzip2 bzip2-devel \
+        readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel \
+        xz-devel libuuid-devel gdbm-libs libnsl2
       curl https://pyenv.run | bash
-    macos: brew install pyenv pyenv-virtualenv
+    macos: |
+      xcode-select --install
+      brew install openssl readline sqlite3 xz zlib tcl-tk
+      brew install pyenv pyenv-virtualenv
+    ubuntu: |
+      sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
+        libreadline-dev libsqlite3-dev curl git libncursesw5-dev xz-utils tk-dev \
+        libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+      curl https://pyenv.run | bash
 
 starship:
   dependencies:
@@ -127,6 +173,7 @@ starship:
   install:
     fedora: curl -sS https://starship.rs/install.sh | sh -s -- --yes
     macos: brew install starship
+    ubuntu: curl -sS https://starship.rs/install.sh | sh -s -- --yes
 
 terraform:
   install:
@@ -136,11 +183,20 @@ terraform:
     macos: |
       brew tap hashicorp/tap
       brew install hashicorp/tap/terraform
+    ubuntu: |
+      sudo apt install -y wget
+      wget -O - https://apt.releases.hashicorp.com/gpg | \
+        sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+      echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] \
+        https://apt.releases.hashicorp.com $(lsb_release -cs) main" | \
+        sudo tee /etc/apt/sources.list.d/hashicorp.list
+      sudo apt update -y && sudo apt install -y terraform
 
 tldr:
   install:
     fedora: sudo dnf install -y tldr
     macos: brew install tldr
+    ubuntu: sudo apt install -y tldr
   setup: tldr --update
 
 tmux:
@@ -150,6 +206,7 @@ tmux:
   install:
     fedora: sudo dnf install -y tmux
     macos: brew install tmux
+    ubuntu: sudo apt install -y tmux
   setup: git clone https://github.com/tmux-plugins/tpm "$TMUX_PLUGIN_DIR"
   post_setup: "$TMUX_PLUGIN_DIR/bin/install_plugins"
 
@@ -158,6 +215,7 @@ vim:
   install:
     fedora: sudo dnf install -y vimx && sudo ln -s vimx /bin/vim
     macos: brew install vim
+    ubuntu: sudo apt install -y vim-gtk3
 
 zsh:
   dependencies:
@@ -170,6 +228,7 @@ zsh:
     macos: |
       brew install coreutils
       sudo ln -sf /opt/homebrew/opt/coreutils/bin/gls /usr/local/bin/ls
+    ubuntu: sudo apt install -y zsh
   setup: |
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     git clone https://github.com/TamCore/autoupdate-oh-my-zsh-plugins "${OH_MY_ZSH_CUSTOM}/plugins/autoupdate"
