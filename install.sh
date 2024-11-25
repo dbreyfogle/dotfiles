@@ -181,6 +181,13 @@ run_install() {
     local app=$1
     local install_cmd
 
+    install_cmd=$(yq_helper ".$app.install")
+    if [[  -n "$install_cmd" && $(yq_helper ".$app.install | type") == "!!str" ]]; then
+        log "Running default installation commands for $app"
+        eval "$install_cmd"
+        return
+    fi
+
     install_cmd=$(yq_helper ".$app.install.$OS")
     if [[ -n "$install_cmd" ]]; then
         log "Running installation commands for $app"
