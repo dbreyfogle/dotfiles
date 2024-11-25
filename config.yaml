@@ -7,6 +7,12 @@ alacritty:
     macos: brew install --cask alacritty
     ubuntu: sudo apt install -y alacritty
 
+ansible:
+  install:
+    fedora: sudo dnf install -y ansible
+    macos: brew install ansible
+    ubuntu: sudo apt install -y ansible
+
 asciinema:
   install:
     fedora: |

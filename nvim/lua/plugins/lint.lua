@@ -11,6 +11,7 @@ return {
 			markdown = { "markdownlint", "vale" },
 			python = { "ruff", "mypy" },
 			terraform = { "tflint" },
+			["yaml.ansible"] = { "ansible_lint" },
 		}
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 			callback = function()

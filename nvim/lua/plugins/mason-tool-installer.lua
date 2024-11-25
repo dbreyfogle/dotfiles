@@ -11,6 +11,8 @@ return {
 			["mason-nvim-dap"] = false,
 		},
 		ensure_installed = {
+			"ansible-language-server",
+			"ansible-lint",
 			"bash-language-server",
 			"debugpy",
 			"delve",
