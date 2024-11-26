@@ -156,6 +156,7 @@ nvim:
   dependencies:
     - fonts
     - node
+    - vale
   symlink: $HOME/.config
   scope: directory
   install:
@@ -230,6 +231,10 @@ tmux:
     ubuntu: sudo apt install -y tmux
   setup: git clone https://github.com/tmux-plugins/tpm "$TMUX_PLUGIN_DIR"
   post_setup: "$TMUX_PLUGIN_DIR/bin/install_plugins"
+
+vale:
+  symlink: $HOME/.config/vale
+  setup: echo 'export VALE_CONFIG_PATH="$HOME/.config/vale/.vale.ini"' >> "$HOME/.zprofile"
 
 vim:
   symlink: $HOME
