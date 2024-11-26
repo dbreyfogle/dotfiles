@@ -31,12 +31,12 @@ asciinema:
   install:
     fedora: |
       sudo dnf install -y asciinema
-      curl -Lk https://github.com/asciinema/agg/releases/latest/download/agg-x86_64-unknown-linux-gnu -o agg
+      curl -L https://github.com/asciinema/agg/releases/latest/download/agg-x86_64-unknown-linux-gnu -o agg
       chmod a+x agg && sudo mv agg /usr/local/bin
     macos: brew install asciinema agg
     ubuntu: |
       sudo apt install -y asciinema
-      curl -Lk https://github.com/asciinema/agg/releases/latest/download/agg-x86_64-unknown-linux-gnu -o agg
+      curl -L https://github.com/asciinema/agg/releases/latest/download/agg-x86_64-unknown-linux-gnu -o agg
       chmod a+x agg && sudo mv agg /usr/local/bin
 
 aws:
@@ -76,7 +76,7 @@ docker:
       sudo usermod -aG docker $USER
       sudo systemctl enable docker.service
       sudo systemctl enable containerd.service
-      curl -Lk https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64 -o hadolint
+      curl -L https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64 -o hadolint
       chmod a+x hadolint && sudo mv hadolint /usr/local/bin
 
 fonts:
@@ -152,11 +152,11 @@ k9s:
   symlink: $HOME/.config/k9s
   install:
     fedora: |
-      curl -Lk https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar -xzf - -C /tmp k9s
+      curl -L https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar -xzf - -C /tmp k9s
       chmod a+x /tmp/k9s && sudo mv /tmp/k9s /usr/local/bin
     macos: brew install derailed/k9s/k9s
     ubuntu: |
-      curl -Lk https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar -xzf - -C /tmp k9s
+      curl -L https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar -xzf - -C /tmp k9s
       chmod a+x /tmp/k9s && sudo mv /tmp/k9s /usr/local/bin
   setup: echo 'export K9S_CONFIG_DIR="$HOME/.config/k9s"' >> "$HOME/.zprofile"
 
