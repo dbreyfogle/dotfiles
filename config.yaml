@@ -130,6 +130,21 @@ k8s:
       curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
       sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+  setup: echo 'export MINIKUBE_IN_STYLE=false' >> "$HOME/.zprofile"
+
+k9s:
+  dependencies:
+    - k8s
+  symlink: $HOME/.config/k9s
+  install:
+    fedora: |
+      curl -Lk https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar -xzf - -C /tmp k9s
+      chmod a+x /tmp/k9s && sudo mv /tmp/k9s /usr/local/bin
+    macos: brew install derailed/k9s/k9s
+    ubuntu: |
+      curl -Lk https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar -xzf - -C /tmp k9s
+      chmod a+x /tmp/k9s && sudo mv /tmp/k9s /usr/local/bin
+  setup: echo 'export K9S_CONFIG_DIR="$HOME/.config/k9s"' >> "$HOME/.zprofile"
 
 node:
   install:
