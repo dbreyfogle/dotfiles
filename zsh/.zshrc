@@ -14,6 +14,7 @@ plugins=(
     docker-compose
     kubectl
     helm
+    argocd
     terraform
     aws
     poetry
