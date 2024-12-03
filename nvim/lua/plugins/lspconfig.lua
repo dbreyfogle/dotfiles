@@ -47,15 +47,17 @@ return {
 					})
 				end,
 				["yamlls"] = function()
-					local schemas = require("schemastore").yaml.schemas()
-					schemas["kubernetes"] = "*.yaml" -- default to k8s
 					require("lspconfig").yamlls.setup({
 						settings = {
 							yaml = {
-								schemas = schemas,
+								schemas = require("schemastore").yaml.schemas(),
 								schemaStore = { enable = false, url = "" },
 							},
 						},
+						filetypes = table.insert(
+							require("lspconfig").yamlls.document_config.default_config.filetypes,
+							"yaml.kubernetes" -- custom handling for kubernetes files
+						),
 					})
 				end,
 			},
@@ -64,9 +66,9 @@ return {
 		-- Detect filetypes by pattern
 		vim.filetype.add({
 			pattern = {
-				[".*/templates/.*%.ya?ml"] = "helm",
-				[".*/Chart%.ya?ml"] = "helm",
-				[".*/values%.ya?ml"] = "helm",
+				[".*/templates/.*%.ya?ml"] = { "helm", { priority = 10 } },
+				[".*/Chart%.ya?ml"] = { "helm", { priority = 10 } },
+				[".*/values%.ya?ml"] = { "helm", { priority = 10 } },
 
 				[".*/host_vars/.*%.ya?ml"] = "yaml.ansible",
 				[".*/group_vars/.*%.ya?ml"] = "yaml.ansible",
@@ -77,7 +79,46 @@ return {
 				[".*/roles/.*/handlers/.*%.ya?ml"] = "yaml.ansible",
 				[".*/tasks/.*%.ya?ml"] = "yaml.ansible",
 				[".*/molecule/.*%.ya?ml"] = "yaml.ansible",
+
+				[".*/k8s/.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/kubernetes/.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/manifests/.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/base/.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/overlays/.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/deployments/.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/services/.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/.*deployment.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/.*service.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/.*configmap.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/.*secret.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/.*daemonset.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/.*ingress.*%.ya?ml"] = "yaml.kubernetes",
+				[".*/.*statefulset.*%.ya?ml"] = "yaml.kubernetes",
 			},
+		})
+
+		-- Apply kubernetes schema to custom yaml.kubernetes filetypes
+		vim.api.nvim_create_autocmd({ "LspAttach", "FileType" }, {
+			callback = function()
+				if vim.bo.filetype == "yaml.kubernetes" then
+					local client = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf(), name = "yamlls" })[1]
+					if client then
+						local set = {}
+						if not client.config.settings.yaml.schemas["kubernetes"] then
+							client.config.settings.yaml.schemas["kubernetes"] = {}
+						else
+							for _, name in ipairs(client.config.settings.yaml.schemas["kubernetes"]) do
+								set[name] = true
+							end
+						end
+						local buf_name = vim.api.nvim_buf_get_name(0)
+						if not set[buf_name] then
+							table.insert(client.config.settings.yaml.schemas["kubernetes"], buf_name)
+							client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+						end
+					end
+				end
+			end,
 		})
 	end,
 }
