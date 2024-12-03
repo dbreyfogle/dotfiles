@@ -64,6 +64,10 @@ return {
 		-- Detect filetypes by pattern
 		vim.filetype.add({
 			pattern = {
+				[".*/templates/.*%.ya?ml"] = "helm",
+				[".*/Chart%.ya?ml"] = "helm",
+				[".*/values%.ya?ml"] = "helm",
+
 				[".*/host_vars/.*%.ya?ml"] = "yaml.ansible",
 				[".*/group_vars/.*%.ya?ml"] = "yaml.ansible",
 				[".*/group_vars/.*/.*%.ya?ml"] = "yaml.ansible",

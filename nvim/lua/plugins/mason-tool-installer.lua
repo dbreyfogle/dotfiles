@@ -19,6 +19,7 @@ return {
 			"dockerfile-language-server",
 			"golangci-lint",
 			"gopls",
+			"helm-ls",
 			"json-lsp",
 			"lua-language-server",
 			"markdownlint",
